@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  # SurrealDB Database - Development Only
+  # For development, run this with: bun run dev:db
+  # Then run the API on host with: bun run dev
+  surrealdb:
+    image: surrealdb/surrealdb:v2.3.8
+    container_name: trauma2-db-dev
+    command: start --log info --user root --pass root memory
+    ports:
+      - "8000:8000"
+    environment:
+      - SURREAL_LOG=info
+    networks:
+      - trauma2-network
+    restart: unless-stopped
+
+networks:
+  trauma2-network:
+    driver: bridge

@@ -19,7 +19,27 @@ Meta-schema API for SurrealDB type system management.
 - Bun v1.1+ installed ([Download](https://bun.sh))
 - Docker & Docker Compose (for database)
 
-### Development Setup
+### Fastest Start (Development)
+
+```bash
+# 1. Install dependencies
+bun install
+
+# 2. Copy development config
+cp .env.development .env
+
+# 3. Start database
+bun run dev:db
+
+# 4. Start API (in new terminal)
+bun run dev
+
+# 5. Open http://localhost:3000/docs
+```
+
+### Development Setup (Recommended)
+
+Run the API on your host machine with hot-reload, while SurrealDB runs in Docker:
 
 1. **Clone and install dependencies**:
 ```bash
@@ -27,18 +47,19 @@ cd /opt/projects/trauma2
 bun install
 ```
 
-2. **Copy environment file**:
+2. **Copy development environment file**:
 ```bash
-cp .env.example .env
-# Edit .env with your configuration if needed
+cp .env.development .env
+# Edit .env if needed
 ```
 
-3. **Start SurrealDB** (in separate terminal):
+3. **Start SurrealDB in Docker**:
 ```bash
-docker run -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root
+bun run dev:db
+# or: docker compose -f docker-compose.dev.yml up -d
 ```
 
-4. **Run development server**:
+4. **Run development server** (with hot-reload):
 ```bash
 bun run dev
 ```
@@ -48,21 +69,45 @@ bun run dev
 - Swagger Docs: http://localhost:3000/docs
 - Health Check: http://localhost:3000/api/health
 
+**Development Scripts**:
+- `bun run dev:db` - Start only SurrealDB (with persistent data)
+- `bun run dev:db:down` - Stop SurrealDB
+- `bun run dev:db:logs` - View SurrealDB logs
+- `bun run dev` - Run API with hot-reload (--watch)
+
 ### Production (Docker Compose)
 
+Run both SurrealDB and API in Docker containers:
+
 ```bash
-# Start both SurrealDB and API
-docker-compose up --build
+# Start both services
+bun run docker:up
+# or: docker compose up -d
 
-# Or run in background
-docker-compose up -d
+# View API logs
+bun run docker:logs
+# or: docker compose logs -f api
 
-# View logs
-docker-compose logs -f api
+# Rebuild after code changes
+bun run docker:rebuild
+# or: docker compose up -d --build
 
-# Stop
-docker-compose down
+# Stop all services
+bun run docker:down
+# or: docker compose down
 ```
+
+**Production Scripts**:
+- `bun run docker:up` - Start full stack (SurrealDB + API)
+- `bun run docker:down` - Stop all containers
+- `bun run docker:logs` - View logs
+- `bun run docker:rebuild` - Rebuild and restart
+
+**Development vs Production**:
+| Setup | Command | Use Case |
+|-------|---------|----------|
+| Development | `bun run dev:db && bun run dev` | Fast iteration, debugging, hot-reload |
+| Production | `bun run docker:up` | Full stack testing, deployment preview |
 
 ## API Documentation
 
