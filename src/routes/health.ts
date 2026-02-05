@@ -31,13 +31,14 @@ export const healthRoutes = new Elysia({ prefix: '/health' })
       try {
         const db = getDatabase();
 
-        // Ping database with simple query
-        await db.query('SELECT 1;');
+        // Ping database with info query (works in SurrealDB)
+        const result = await db.query('INFO FOR DB');
 
         return {
           status: 'ok',
           database: 'connected',
           timestamp: new Date().toISOString(),
+          info: result ? 'available' : 'error',
         };
       } catch (error) {
         throw new DatabaseError('Database health check failed', error);

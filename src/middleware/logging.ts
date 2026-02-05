@@ -9,8 +9,6 @@ import { logger } from '@/utils/logger';
 
 export const loggingMiddleware = new Elysia({ name: 'logging' })
   .onRequest(({ request }) => {
-    const start = Date.now();
-
     logger.info(
       {
         method: request.method,
@@ -19,9 +17,6 @@ export const loggingMiddleware = new Elysia({ name: 'logging' })
       },
       'Incoming request'
     );
-
-    // Store start time in request for duration calculation (if needed later)
-    return { _startTime: start };
   })
   .onError(({ request, error }) => {
     // Error might be various types, safely extract properties

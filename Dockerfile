@@ -14,8 +14,9 @@ RUN bun install --frozen-lockfile --production
 FROM oven/bun:1.1.42-alpine AS builder
 WORKDIR /app
 
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
+# Copy package files and install ALL dependencies (including dev)
+COPY package.json bun.lock* ./
+RUN bun install --frozen-lockfile
 
 # Copy source code
 COPY . .

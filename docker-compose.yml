@@ -5,19 +5,11 @@ services:
   surrealdb:
     image: surrealdb/surrealdb:v2.3.8
     container_name: trauma2-db
-    command: start --log trace --user root --pass root file:/data/database.db
+    command: start --log info --user root --pass root memory
     ports:
       - "8000:8000"
-    volumes:
-      - surrealdb-data:/data
     environment:
-      - SURREAL_LOG=trace
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
+      - SURREAL_LOG=info
     networks:
       - trauma2-network
     restart: unless-stopped
@@ -60,8 +52,7 @@ services:
       - SWAGGER_ENABLED=true
       - SWAGGER_PATH=/docs
     depends_on:
-      surrealdb:
-        condition: service_healthy
+      - surrealdb
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
