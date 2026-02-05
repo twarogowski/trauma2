@@ -1,0 +1,50 @@
+# Bun
+node_modules/
+bun.lockb
+.bun/
+
+# Build
+dist/
+out/
+*.js.map
+*.tgz
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+tmp/
+temp/
+*.tmp
+.cache
+*.tsbuildinfo
+.eslintcache
+
+# Docker
+.docker/
+
+# Plans (optional - jeśli nie chcesz commitować planów)
+# .claude/plans/

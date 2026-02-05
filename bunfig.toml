@@ -1,0 +1,23 @@
+# Bun runtime configuration
+
+[run]
+# Automatyczny restart przy zmianach (dev mode)
+watch = ["src/**/*.ts", ".env"]
+# Ignore patterns
+ignore = ["node_modules", "dist", "*.test.ts"]
+# Log level
+logLevel = "info"
+
+[install]
+# Lockfile
+lockfile = true
+# Production mode (skip dev deps)
+production = false
+# Faster installs
+exact = false
+
+[test]
+# Test runner configuration
+coverage = false
+preload = ["./tests/setup.ts"]
+timeout = 30000
